@@ -176,19 +176,63 @@ export default {
     sidebarLogo: 'Sidebar Logo'
   },
   pipeline: {
-    name: 'Name',
-    aliasName: 'AliasName',
+    name: 'Pipeline Name',
+    aliasName: 'Alias Name',
     status: 'Status',
+    statusMap: {
+      run: {
+        key: 'run',
+        value: 'RUN',
+        type: 'success'
+      },
+      stop: {
+        key: 'stop',
+        value: 'STOP',
+        type: 'info'
+      }
+    },
     statusOptions: [
       {
         key: 'run',
-        value: '运行'
+        value: 'RUN'
       },
       {
         key: 'stop',
-        value: '停止'
+        value: 'STOP'
       }
     ],
+    infoStatusMap: {
+      run: {
+        key: 'run',
+        value: 'RUN',
+        type: 'success'
+      },
+      stop: {
+        key: 'stop',
+        value: 'STOP',
+        type: 'info'
+      },
+      stopping: {
+        key: 'stopping',
+        value: 'STOPPING',
+        type: 'warning'
+      },
+      scheduling: {
+        key: 'scheduling',
+        value: 'SCHEDULING',
+        type: 'warning'
+      },
+      scheduled: {
+        key: 'scheduled',
+        value: 'SCHEDULED',
+        type: ''
+      },
+      deleting: {
+        key: 'deleting',
+        value: 'DELETING',
+        type: 'danger'
+      }
+    },
     createTime: 'Create Time',
     mysqlAddress: 'Mysql Address',
     mysqlPort: 'Mysql Port',
@@ -198,33 +242,167 @@ export default {
     mysqlFlavor: 'Flavor',
     mysqlFlavorOptions: [
       {
-        key: 'mysql',
+        key: 'MySQL',
         value: 'MySQL'
       },
       {
-        key: 'mariadb',
+        key: 'MariaDB',
         value: 'MariaDB'
       }
     ],
-    pipelineQuantity: 'Quantity of Pipeline',
+    mysqlMode: 'Mysql Binlog Mode',
+    mysqlModeOptions: [
+      {
+        key: 'position',
+        value: 'common'
+      },
+      {
+        key: 'gtid',
+        value: 'GTID'
+      }
+    ],
+    output: {
+      sender: {
+        name: 'Sender Name',
+        type: 'Sender Type',
+        typeOptions: [
+          {
+            key: 'stdout',
+            value: 'Stdout'
+          },
+          {
+            key: 'kafka',
+            value: 'Kafka'
+          }
+        ]
+      }
+    },
     bindNode: 'Bind Node',
-    remark: 'Remark'
+    remark: 'Remark',
+    filter: {
+      type: 'Type',
+      rule: 'Rule'
+    },
+    filterOptions: [{ key: 'black', value: 'Black List' }, { key: 'white', value: 'White List' }]
   },
   node: {
-    nodeQuantity: 'Quantity of Node'
+    createTime: 'Join Time',
+    name: 'Node Name',
+    leader: 'Leader Node',
+    ip: 'Current IP',
+    status: 'Node Status',
+    version: 'Node Version',
+    roleMap: {
+      leader: 'Leader',
+      follower: 'Follower'
+    }
   },
-  rules: {
-    required: 'Field is required'
+  capacity: {
+    cpuCores: 'CPU Cores',
+    memory: 'Memory',
+    cpuUsage: 'CPU Usage',
+    memoryUsage: 'Memory Usage'
   },
-  tips: {
+  pipeline_table: {
     select: {
       pleaseSelect: 'Please select'
     },
     date: {
-      pickDate: 'Please pick a date'
+      pickDate: 'Please select'
     },
     input: {
       pleaseInput: 'Please input'
-    }
+    },
+    filter: {
+      delete: 'Delete',
+      addFilter: 'New Filter',
+      whiteList: 'White List',
+      blackList: 'Black List',
+      place: 'Enter in this format: database.table or database'
+    },
+    kafka: {
+      brokers: 'Multiple brokers are separated by commas.'
+    },
+    pipeline: {
+      name: 'Pipeline name, globally unique',
+      aliasName: 'Pipeline alias, optional, easy to understand',
+      run: 'Run'
+    },
+    actions: 'Actions',
+    status: 'Status',
+    edit: 'Edit',
+    delete: 'Delete',
+    run: 'Run it',
+    stop: 'Stop',
+    name: 'Pipeline name',
+    server_id: 'If it is blank, the background will be generated automatically',
+    // sortOptions: [{ label: 'Time Ascending', key: '+id' }, { label: 'Time Descending', key: '-id' }]
+    sortOptions: [{ label: 'Ascending', key: '+id' }, { label: 'Descending', key: '-id' }],
+    statusOptions: [{ label: 'Run', key: 'run' }, { label: 'Stop', key: 'stop' }]
+  },
+  pipe_detail: {
+    pipeline: 'Pipeline',
+    remark: 'Remark',
+    detail: 'Detail',
+    runStatus: 'Run Status',
+    instance: 'Instance',
+    govern: 'Govern',
+    filter: 'Filter',
+    filterTip: 'Enter the table name to verify whether the database or data table can pass under the current filtering rule. The table name format is database name plus table name, such as test_ db.test.tbl',
+    validRule: 'Database name or data table name to be verified',
+    button_valid: 'Valid',
+    validTipTrue: ' will be filtered',
+    validTipFalse: ' will not be filtered',
+    positionTip: 'Manually select a binlog synchronization location. For fault recovery or special business requirements.'
+  },
+  node_table: {
+    statusMap: {
+      ready: {
+        yes: 'Ready',
+        no: 'Not Ready'
+      },
+      network_unavailable: {
+        yes: 'Network Unavailable'
+      }
+    },
+    name: 'Node Name',
+    ready: 'Status',
+    sortOptions: [{ label: 'Ascending', key: '+id' }, { label: 'Descending', key: '-id' }],
+    readyOptions: [{ label: 'Ready', key: 'yes' }, { label: 'Not Ready', key: 'no' }]
+  },
+  instance: {
+    create_time: 'Start Time',
+    pipeline_name: 'Pipeline',
+    node_name: 'Node Name'
+  },
+  register: {
+    create_time: 'Registration Time',
+    name: 'Node Name',
+    ip: 'Node IP',
+    version: 'Version'
+  },
+  cluster: {
+    title: 'Cluster Info',
+    name: 'Cluster Name',
+    tabMap: {
+      election: {
+        key: 'election',
+        label: 'Election Node'
+      },
+      register: {
+        key: 'register',
+        label: 'Registration Node'
+      },
+      instance: {
+        key: 'instance',
+        label: 'Instance '
+      }
+    },
+    instanceTip: 'Displays the currently running pipeline instance.',
+    registerTip: 'Displays all currently registered (online) nodes.',
+    electionTip: 'Displays the status of the master node.',
+  },
+  global: {
+    submit: 'Submit'
   }
 }

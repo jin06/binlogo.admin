@@ -1,7 +1,7 @@
 export default {
   route: {
-    pipeline: '流水线',
     dashboard: '首页',
+    pipeline: '流水线',
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -180,6 +180,7 @@ export default {
   },
   pipeline: {
     name: '流水线名称',
+    aliasName: '流水线别名',
     status: '状态',
     statusMap: {
       run: {
@@ -235,7 +236,7 @@ export default {
         type: 'danger'
       }
     },
-    aliasName: '流水线别名',
+    createTime: '创建时间',
     mysqlAddress: 'Mysql地址',
     mysqlPort: 'Mysql端口',
     mysqlUser: 'Mysql用户名',
@@ -279,7 +280,6 @@ export default {
         ]
       }
     },
-    createTime: '创建时间',
     bindNode: '绑定节点',
     remark: '备注',
     runNode: '运行节点',
@@ -288,9 +288,6 @@ export default {
       rule: '规则'
     },
     filterOptions: [{ key: 'black', value: '黑名单' }, { key: 'white', value: '白名单' }]
-  },
-  pipe_info: {
-
   },
   node: {
     createTime: '首次加入时间',
@@ -376,10 +373,6 @@ export default {
     ready: '状态',
     sortOptions: [{ label: '升序', key: '+id' }, { label: '降序', key: '-id' }],
     readyOptions: [{ label: '就绪', key: 'yes' }, { label: '未就绪', key: 'no' }]
-  },
-  dashboard: {
-    nodeQuantity: '节点数量',
-    pipelineQuantity: '流水线数量'
   },
   instance: {
     create_time: '启动时间',

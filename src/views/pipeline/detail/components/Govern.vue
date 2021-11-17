@@ -1,7 +1,7 @@
 <script src="../../../../lang/zh.js"></script>
 <template>
   <el-row :gutter="20">
-    <el-col :span="12">
+    <el-col :span="24">
       <el-row>
         <aside>{{ $t('pipe_detail.positionTip') }} </aside>
       </el-row>
@@ -26,25 +26,6 @@
           </el-form-item>
         </el-form>
       </el-card>
-    </el-col>
-    <el-col :span="12">
-<!--      <el-card>-->
-<!--        <el-row :gutter="20">-->
-<!--          <el-col :span="5"><el-avatar icon="el-icon-ship" style="background-color: #2ac06d"/></el-col>-->
-<!--          <el-col :span="5">-->
-<!--            <el-row><span style="font-size:12px">{{ $t('instance.create_time') }}</span></el-row>-->
-<!--            <el-row><span>{{ dateFormat(instance.create_time) }}</span></el-row>-->
-<!--          </el-col>-->
-<!--          <el-col :span="5">-->
-<!--            <el-row><span style="font-size: 12px">{{ $t('instance.pipeline_name') }}</span></el-row>-->
-<!--            <el-row><span>88888</span></el-row>-->
-<!--          </el-col>-->
-<!--          <el-col :span="5">-->
-<!--            <el-row><span style="font-size: 12px">{{ $t('instance.node_name') }}</span></el-row>-->
-<!--            <el-row><span> {{ instance.node_name }}</span></el-row>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--      </el-card>-->
     </el-col>
   </el-row>
 </template>
