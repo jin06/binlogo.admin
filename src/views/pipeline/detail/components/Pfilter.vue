@@ -26,9 +26,8 @@
       <el-table :data="list" border fit highlight-current-row width="auto">
         <el-table-column width="auto" align="center" :label="$t('pipeline.filter.type')">
           <template slot-scope="{row}">
-            <div v-for="item in $t('pipeline.filterOptions')">
-              <span v-if="row.type === item.key">{{ item.value }}</span>
-            </div>
+            <span v-if="row.type === 'white' ">{{ $t('pipeline.filterValues.white') }}</span>
+            <span v-if="row.type === 'black' ">{{ $t('pipeline.filterValues.black') }}</span>
           </template>
         </el-table-column>
         <el-table-column width="auto" align="center" :label="$t('pipeline.filter.rule')">

@@ -179,17 +179,11 @@ export default {
     name: 'Pipeline Name',
     aliasName: 'Alias Name',
     status: 'Status',
-    statusMap: {
-      run: {
-        key: 'run',
-        value: 'RUN',
-        type: 'success'
-      },
-      stop: {
-        key: 'stop',
-        value: 'STOP',
-        type: 'info'
-      }
+    statusValues: {
+      started: 'Started',
+      starting: 'Starting',
+      stopped: 'Stopped',
+      stopping: 'Stopping'
     },
     statusOptions: [
       {
@@ -283,7 +277,10 @@ export default {
       type: 'Type',
       rule: 'Rule'
     },
-    filterOptions: [{ key: 'black', value: 'Black List' }, { key: 'white', value: 'White List' }]
+    filterValues: {
+      white: 'White List',
+      black: 'Black List'
+    }
   },
   node: {
     createTime: 'Join Time',
@@ -348,12 +345,23 @@ export default {
     instance: 'Instance',
     govern: 'Govern',
     filter: 'Filter',
-    filterTip: 'Enter the table name to verify whether the database or data table can pass under the current filtering rule. The table name format is database name plus table name, such as test_ db.test.tbl',
+    event: 'Event',
+    filterTip: 'Enter the table name to verify whether the database or data table can pass under the current filtering rule. The table name format is database name plus table name, such as test_ db.test_tbl',
     validRule: 'Database name or data table name to be verified',
     button_valid: 'Valid',
     validTipTrue: ' will be filtered',
     validTipFalse: ' will not be filtered',
-    positionTip: 'Manually select a binlog synchronization location. For fault recovery or special business requirements.'
+    positionTip: 'Manually select a binlog synchronization location. For fault recovery or special business requirements.',
+    eventTip: 'Displays the last 20 event records',
+    event_table: {
+      first_time: 'First Time',
+      last_time: 'Last Time',
+      type: 'Type',
+      count: 'AGG Times',
+      node_name: 'From Node',
+      node_ip: 'Node IP',
+      message: 'Content'
+    }
   },
   node_table: {
     statusMap: {
@@ -400,7 +408,7 @@ export default {
     },
     instanceTip: 'Displays the currently running pipeline instance.',
     registerTip: 'Displays all currently registered (online) nodes.',
-    electionTip: 'Displays the status of the master node.',
+    electionTip: 'Displays the status of the master node.'
   },
   global: {
     submit: 'Submit'

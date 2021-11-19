@@ -5,11 +5,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" :placeholder="$t('pipeline_table.name')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.status" :placeholder="$t('pipeline_table.status')" clearable class="filter-item" style="width: 130px">
+      <el-input v-model="listQuery.name" :placeholder="$t('pipeline_table.name')" style="width: 200px;margin-right: 10px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.status" :placeholder="$t('pipeline_table.status')" clearable class="filter-item" style="width: 130px; margin-right: 10px">
         <el-option v-for="item in $t('pipeline_table.statusOptions')" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
+      <el-select v-model="listQuery.sort" style="width: 140px;margin-right: 10px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in $t('pipeline_table.sortOptions')" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -27,7 +27,7 @@
       border
       fit
       highlight-current-row
-      style="width: 100%;"
+      style="width: 100%"
       @sort-change="sortChange"
     >
       <el-table-column :label="$t('pipeline.createTime')" width="auto" align="center">
@@ -49,11 +49,17 @@
       </el-table-column>
       <el-table-column :label="$t('pipeline.status')" width="auto">
         <template slot-scope="{row}">
-          <el-tag v-if="row.pipeline.status==='run'" :key="$t('pipeline.statusMap.run.value')" :type="$t('pipeline.statusMap.run.type')" effect="dark">
-            {{ $t('pipeline.statusMap.run.value') }}
+          <el-tag v-if="row.pipeline.status==='run' && row.info.instance.node_name !== ''" key="run" type="success" effect="dark">
+            {{ $t('pipeline.statusValues.started') }}
           </el-tag>
-          <el-tag v-if="row.pipeline.status==='stop'" :key="$t('pipeline.statusMap.stop.value')" :type="$t('pipeline.statusMap.stop.type')" effect="dark">
-            {{ $t('pipeline.statusMap.stop.value') }}
+          <el-tag v-if="row.pipeline.status==='run' && row.info.instance.node_name === ''" key="run" type="success" effect="">
+            {{ $t('pipeline.statusValues.starting') }}
+          </el-tag>
+          <el-tag v-if="row.pipeline.status === 'stop' && row.info.instance.node_name === ''" key="stop" type="info" effect="dark">
+            {{ $t('pipeline.statusValues.stopped') }}
+          </el-tag>
+          <el-tag v-if="row.pipeline.status === 'stop' && row.info.instance.node_name !== ''" key="stop" type="info" effect="">
+            {{ $t('pipeline.statusValues.stopping') }}
           </el-tag>
         </template>
       </el-table-column>
@@ -131,15 +137,49 @@
         </el-form-item>
         <el-divider content-position="center">Output</el-divider>
         <el-form-item :label="$t('pipeline.output.sender.type')">
-          <el-select v-model="temp.pipeline.output.sender.type" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')" prop="pipeline.output.sender.type">
+          <el-select v-model="temp.pipeline.output.sender.type" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')" prop="pipeline.output.sender.type" style="margin-right: 15px">
             <el-option v-for="item in $t('pipeline.output.sender.typeOptions')" :key="item.key" :label="item.value" :value="item.key" />
           </el-select>
+          <el-link v-if="temp.pipeline.output.sender.type==='kafka'" target="_blank" type="success" href="https://kafka.apache.org/documentation/#producerconfigs">Kafka Configs Doc</el-link>
         </el-form-item>
-        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="Kafka brokers">
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="brokers">
           <el-input v-model="temp.pipeline.output.sender.kafka.brokers" :placeholder="$t('pipeline_table.kafka.brokers')" />
         </el-form-item>
-        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="Kafka topic">
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="topic">
           <el-input v-model="temp.pipeline.output.sender.kafka.topic" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="acks">
+          <el-select v-model="temp.pipeline.output.sender.kafka.require_acks" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')">
+            <el-option
+              v-for="item in kafkaAcksOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="enable.idempotence">
+          <el-select v-model="temp.pipeline.output.sender.kafka.idepotent" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')">
+            <el-option
+              v-for="item in kafkaIdepotent"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="compression.type">
+          <el-select v-model="temp.pipeline.output.sender.kafka.compression" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')">
+            <el-option
+              v-for="item in kafkaCompressionOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="retries">
+          <el-input v-model.number="temp.pipeline.output.sender.kafka.retries" />
         </el-form-item>
         <el-divider content-position="center">Filter: <el-button size="small" @click="addFilter">{{ $t('pipeline_table.filter.addFilter') }}</el-button></el-divider>
         <el-form-item
@@ -199,12 +239,6 @@ const calendarTypeOptions = [
   { key: 'EU', display_name: 'Eurozone' }
 ]
 
-// arr to obj, such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
 export default {
   name: 'ComplexTable',
   components: { Pagination },
@@ -216,9 +250,6 @@ export default {
         stop: 'danger'
       }
       return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
     }
   },
   data() {
@@ -239,7 +270,23 @@ export default {
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
-      sortOptions: [{ label: 'Time Ascending', key: '+id' }, { label: 'Time Descending', key: '-id' }],
+      kafkaAcksOptions:[
+        { value:0, label:'0 (not wait any response, retries will not take effect)' },
+        { value:1, label:'1 (write to kafka local log without awaiting full ack from fllowers.)'},
+        { value: -1, label: '-1 (will wait for full set of in-sync replicas to acknowledge the record)'}
+      ],
+      kafkaCompressionOptions: [
+        { value: 0, label:'no compression'},
+        { value: 1, label:'gzip'},
+        { value: 2, label:'snappy'},
+        { value: 3, label:'lz4'},
+        { value: 4, label:'zstd'}
+      ],
+      kafkaIdepotent:[
+        { value: true, label:true},
+        { value: false, label: false}
+      ],
+    sortOptions: [{ label: 'Time Ascending', key: '+id' }, { label: 'Time Descending', key: '-id' }],
       // statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
@@ -249,7 +296,7 @@ export default {
             port: '',
             user: '',
             password: '',
-            mode: '',
+            mode: 'gtid',
             flavor: ''
           },
           remark: '',
@@ -257,15 +304,22 @@ export default {
           name: '',
           output: {
             sender:{
-              type: '',
+              type: 'kafka',
               kafka: {
-                brokers: [],
-                topic: ''
+                brokers: '',
+                topic: '',
+                require_acks: 1,
+                compression: 0,
+                retries: 3,
+                idepotent:false
               },
               stdout: null
             }
           },
-          filters: []
+          filters: [{
+            "type": "black",
+            "rule": "mysql"
+          }]
         }
       },
       dialogFormVisible: false,
@@ -379,22 +433,29 @@ export default {
             password: '',
             server_id: 0,
             flavor: 'MySQL',
-            mode: 'position'
+            mode: 'gtid'
           },
           remark: '',
           alias_name: '',
           name: '',
           output: {
             sender:{
-              type: '',
+              type: 'kafka',
               kafka: {
-                brokers: [],
-                topic: ''
+                brokers: '',
+                topic: '',
+                require_acks: 1,
+                compression:0,
+                retries:3,
+                idepotent:false
               },
               stdout: null
             }
           },
-          filters: []
+          filters: [{
+            "type": "black",
+            "rule": "mysql"
+          }]
         }
       }
     },

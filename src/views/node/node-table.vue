@@ -4,11 +4,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" :placeholder="$t('node_table.name')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.ready" :placeholder="$t('node_table.ready')" clearable class="filter-item" style="width: 130px">
+      <el-input v-model="listQuery.name" :placeholder="$t('node_table.name')" style="width: 200px;margin-right: 10px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.ready" :placeholder="$t('node_table.ready')" clearable class="filter-item" style="width: 130px;margin-right: 10px">
         <el-option v-for="item in $t('node_table.readyOptions')" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
+      <el-select v-model="listQuery.sort" style="width: 140px;margin-right: 10px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in $t('node_table.sortOptions')" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -80,12 +80,12 @@
       </el-table-column>
       <el-table-column :label="$t('capacity.cpuUsage')" width="auto">
         <template slot-scope="{row}">
-          <el-progress :percentage="row.capacity.cpu_usage" :color="colors"></el-progress>
+          <el-progress :percentage="row.capacity.cpu_usage" :color="colors" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('capacity.memoryUsage')" width="auto">
         <template slot-scope="{row}">
-          <el-progress :percentage="row.capacity.memory_usage" :color="colors"></el-progress>
+          <el-progress :percentage="row.capacity.memory_usage" :color="colors" />
         </template>
       </el-table-column>
     </el-table>

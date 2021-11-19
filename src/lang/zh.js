@@ -182,17 +182,11 @@ export default {
     name: '流水线名称',
     aliasName: '流水线别名',
     status: '状态',
-    statusMap: {
-      run: {
-        key: 'run',
-        value: '运行',
-        type: 'success'
-      },
-      stop: {
-        key: 'stop',
-        value: '停止',
-        type: 'info'
-      }
+    statusValues: {
+      started: '已启动',
+      starting: '启动中',
+      stopped: '已停止',
+      stopping: '停止中'
     },
     statusOptions: [
       {
@@ -287,7 +281,10 @@ export default {
       type: '类型',
       rule: '规则'
     },
-    filterOptions: [{ key: 'black', value: '黑名单' }, { key: 'white', value: '白名单' }]
+    filterValues: {
+      white: '白名单',
+      black: '黑名单'
+    }
   },
   node: {
     createTime: '首次加入时间',
@@ -325,7 +322,13 @@ export default {
       place: '输入database.table或者database'
     },
     kafka: {
-      brokers: '多个broker使用逗号分隔'
+      brokers: '多个broker使用逗号分隔',
+      acksOptions: [
+        {
+          key: 0,
+          label: 'NoResponse'
+        }
+      ]
     },
     pipeline: {
       name: '流水线名称，全局唯一',
@@ -352,12 +355,23 @@ export default {
     instance: '实例',
     govern: '治理',
     filter: '过滤器',
-    filterTip: '输入表名，验证当前过滤规则下该数据库或数据表能否通过，表名格式为数据库名称加表名，例如 test_db.test.tbl',
+    event: '事件',
+    filterTip: '输入表名，验证当前过滤规则下该数据库或数据表能否通过，表名格式为数据库名称加表名，例如 test_db.test_tbl',
     validRule: '待验证的数据库名或数据表名',
     button_valid: '验证',
     validTipTrue: ' 将会被过滤',
     validTipFalse: ' 不会被过滤',
-    positionTip: '手动选择一个binlog同步的位置。用于故障恢复或特殊的业务需求。'
+    positionTip: '手动选择一个binlog同步的位置。用于故障恢复或特殊的业务需求。',
+    eventTip: '显示最近的20条事件记录',
+    event_table: {
+      first_time: '首次记录时间',
+      last_time: '最后记录时间',
+      type: '类型',
+      count: '聚合次数',
+      node_name: '上报节点',
+      node_ip: '节点IP',
+      message: '事件内容'
+    }
   },
   node_table: {
     statusMap: {

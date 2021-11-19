@@ -13,10 +13,13 @@
               <pfilter :list="bitem.pipeline.filters" :pipe_name="bitem.pipeline.name" />
             </el-tab-pane>
             <el-tab-pane :label="$t('pipe_detail.govern')" name="govern">
-              <govern :governForm="governForm" :bitem="bitem" :instance="bitem.info.instance" :pipe_name="bitem.pipeline.name" />
+              <govern :govern_form="govern_form" :bitem="bitem" :instance="bitem.info.instance" :pipe_name="bitem.pipeline.name" />
             </el-tab-pane>
             <el-tab-pane :label="$t('pipe_detail.instance')" name="instance">
               <instance :instance="bitem.info.instance" />
+            </el-tab-pane>
+            <el-tab-pane :label="$t('pipe_detail.event')" name="event">
+              <event :list="events" />
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -31,12 +34,14 @@ import InfoCard from './components/InfoCard'
 import Instance from './components/Instance'
 import Govern from './components/Govern'
 import Pfilter from './components/Pfilter'
+import Event from './components/Event'
 import { fetchGet } from '@/api/pipeline'
 import { fetchGet as fetchGetPos } from '@/api/position'
+import { fetchList as fetchListEvent } from '@/api/event'
 
 export default {
   name: 'Profile',
-  components: { InfoCard, Instance, Govern, Pfilter },
+  components: { InfoCard, Instance, Govern, Pfilter, Event },
   data() {
     return {
       pipe_name: undefined,
@@ -51,7 +56,7 @@ export default {
       user: {},
       // activeTab: 'filter'
       activeTab: 'filter',
-      governForm: {
+      govern_form: {
         mode:'',
         position:{
           binlog_file:'',
@@ -60,7 +65,8 @@ export default {
           },
           gtid_set:''
         }
-      }
+      },
+      events: []
     }
   },
   computed: {
@@ -75,6 +81,7 @@ export default {
     this.getItem()
     this.getUser()
     this.getPosition()
+    this.getEvent()
   },
   methods: {
     getUser() {
@@ -91,7 +98,7 @@ export default {
       }
       fetchGet(req).then(response => {
         this.bitem = response.data
-        this.governForm.mode = this.bitem.pipeline.mysql.mode
+        this.govern_form.mode = this.bitem.pipeline.mysql.mode
       })
     },
     getPosition() {
@@ -99,7 +106,16 @@ export default {
         pipe_name: this.pipe_name
       }
       fetchGetPos(req).then(response => {
-        this.governForm.position = Object.assign({}, response.data)
+        this.govern_form.position = Object.assign({}, response.data)
+      })
+    },
+    getEvent() {
+      const req = {
+        res_type: 'pipeline',
+        res_name: this.pipe_name
+      }
+      fetchListEvent(req).then(response => {
+        this.events = response.data.items
       })
     }
   }
