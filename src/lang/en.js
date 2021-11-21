@@ -248,7 +248,7 @@ export default {
     mysqlModeOptions: [
       {
         key: 'position',
-        value: 'common'
+        value: 'Common'
       },
       {
         key: 'gtid',
@@ -311,6 +311,7 @@ export default {
       pleaseInput: 'Please input'
     },
     filter: {
+      name: 'Filter',
       delete: 'Delete',
       addFilter: 'New Filter',
       whiteList: 'White List',

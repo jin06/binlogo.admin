@@ -185,7 +185,7 @@
         <el-form-item
           v-for="(filter, index) in temp.pipeline.filters"
           :key="'' + index"
-          :label="'过滤器 ' + index"
+          :label="$t('pipeline_table.filter.name') + ' '+ index"
         >
           <el-row :gutter="20">
             <el-col :span="5">

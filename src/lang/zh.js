@@ -315,6 +315,7 @@ export default {
       pleaseInput: '请输入'
     },
     filter: {
+      name: '过滤器',
       delete: '删除',
       addFilter: '新增过滤器',
       whiteList: '白名单',
