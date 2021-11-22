@@ -181,6 +181,12 @@
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="retries">
           <el-input v-model.number="temp.pipeline.output.sender.kafka.retries" />
         </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'http'" label="API">
+          <el-input v-model="temp.pipeline.output.sender.http.api" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'http'" :label="$t('pipeline_table.http.retries')">
+          <el-input v-model.number="temp.pipeline.output.sender.http.retries" />
+        </el-form-item>
         <el-divider content-position="center">Filter: <el-button size="small" @click="addFilter">{{ $t('pipeline_table.filter.addFilter') }}</el-button></el-divider>
         <el-form-item
           v-for="(filter, index) in temp.pipeline.filters"
@@ -226,32 +232,24 @@
 </template>
 
 <script>
-import { fetchPv, createArticle, updateArticle } from '@/api/article'
+import { fetchPv } from '@/api/article'
 import { fetchList, fetchUpdateStatus, fetchCreate, fetchUpdate, fetchDelete } from '@/api/pipeline'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
-]
-
 export default {
-  name: 'ComplexTable',
   components: { Pagination },
   directives: { waves },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        run: 'success',
-        stop: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
+  // filters: {
+  //   statusFilter(status) {
+  //     const statusMap = {
+  //       run: 'success',
+  //       stop: 'danger'
+  //     }
+  //     return statusMap[status]
+  //   }
+  // },
   data() {
     return {
       tableKey: 0,
@@ -261,15 +259,14 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        importance: undefined,
+        // importance: undefined,
         title: undefined,
         type: undefined,
         status: undefined,
         name: undefined,
         sort: '+id'
       },
-      importanceOptions: [1, 2, 3],
-      calendarTypeOptions,
+      // importanceOptions: [1, 2, 3],
       kafkaAcksOptions:[
         { value:0, label:'0 (not wait any response, retries will not take effect)' },
         { value:1, label:'1 (write to kafka local log without awaiting full ack from fllowers.)'},
@@ -313,7 +310,11 @@ export default {
                 retries: 3,
                 idepotent:false
               },
-              stdout: null
+              stdout: null,
+              http: {
+                api: '',
+                retries: 3
+              }
             }
           },
           filters: [{
@@ -449,7 +450,11 @@ export default {
                 retries:3,
                 idepotent:false
               },
-              stdout: null
+              stdout: null,
+              http: {
+                api:'',
+                retries: 3
+              }
             }
           },
           filters: [{
@@ -540,35 +545,35 @@ export default {
         });
       });
     },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal) {
-      return this.list.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
-    },
+    // handleFetchPv(pv) {
+    //   fetchPv(pv).then(response => {
+    //     this.pvData = response.data.pvData
+    //     this.dialogPvVisible = true
+    //   })
+    // },
+    // handleDownload() {
+    //   this.downloadLoading = true
+    //   import('@/vendor/Export2Excel').then(excel => {
+    //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+    //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+    //     const data = this.formatJson(filterVal)
+    //     excel.export_json_to_excel({
+    //       header: tHeader,
+    //       data,
+    //       filename: 'table-list'
+    //     })
+    //     this.downloadLoading = false
+    //   })
+    // },
+    // formatJson(filterVal) {
+    //   return this.list.map(v => filterVal.map(j => {
+    //     if (j === 'timestamp') {
+    //       return parseTime(v[j])
+    //     } else {
+    //       return v[j]
+    //     }
+    //   }))
+    // },
     addFilter() {
       this.temp.pipeline.filters.push({
         type: '' ,

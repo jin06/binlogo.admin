@@ -270,6 +270,10 @@ export default {
           {
             key: 'kafka',
             value: 'Kafka'
+          },
+          {
+            key: 'http',
+            value: 'HTTP'
           }
         ]
       }
@@ -335,6 +339,9 @@ export default {
       name: '流水线名称，全局唯一',
       aliasName: '流水线别名，随意取，便于理解',
       run: '运行'
+    },
+    http: {
+      retries: '重试次数'
     },
     actions: '操作',
     status: '状态',

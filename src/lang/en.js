@@ -267,6 +267,10 @@ export default {
           {
             key: 'kafka',
             value: 'Kafka'
+          },
+          {
+            key: 'http',
+            value: 'HTTP'
           }
         ]
       }
@@ -325,6 +329,9 @@ export default {
       name: 'Pipeline name, globally unique',
       aliasName: 'Pipeline alias, optional, easy to understand',
       run: 'Run'
+    },
+    http: {
+      retries: '重试次数'
     },
     actions: 'Actions',
     status: 'Status',
