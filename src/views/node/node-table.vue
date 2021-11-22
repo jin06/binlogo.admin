@@ -75,7 +75,7 @@
       </el-table-column>
       <el-table-column :label="$t('capacity.memory')" width="auto">
         <template slot-scope="{row}">
-          <span>{{ row.capacity.memory/(1024*1024*1024) }}Gi</span>
+          <span>{{ (row.capacity.memory/(1024*1024*1024)).toFixed(2) }}Gi</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('capacity.cpuUsage')" width="auto">
