@@ -271,6 +271,14 @@ export default {
           {
             key: 'http',
             value: 'HTTP'
+          },
+          {
+            key: 'rabbitMQ',
+            value: 'RabbitMQ'
+          },
+          {
+            key: 'redis',
+            value: 'Redis'
           }
         ]
       }
@@ -331,7 +339,10 @@ export default {
       run: 'Run'
     },
     http: {
-      retries: '重试次数'
+      retries: 'Retries'
+    },
+    rabbit: {
+      tips: 'Configure rabbitmq exchange, and binlogo will send a message to the exchange. The routing key is the database plus data table, such as database.table. Users need to create a corresponding rabbitmq queue when using it'
     },
     actions: 'Actions',
     status: 'Status',

@@ -274,6 +274,14 @@ export default {
           {
             key: 'http',
             value: 'HTTP'
+          },
+          {
+            key: 'rabbitMQ',
+            value: 'RabbitMQ'
+          },
+          {
+            key: 'redis',
+            value: 'Redis'
           }
         ]
       }
@@ -342,6 +350,9 @@ export default {
     },
     http: {
       retries: '重试次数'
+    },
+    rabbit: {
+      tips: '配置rabbitMQ的exchange，binlogo会向该exchange发送message，routing key是数据库加数据表，形如database.table, 用户使用时需要创建相应的rabbitMQ队列'
     },
     actions: '操作',
     status: '状态',

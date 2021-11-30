@@ -141,9 +141,11 @@
             <el-option v-for="item in $t('pipeline.output.sender.typeOptions')" :key="item.key" :label="item.value" :value="item.key" />
           </el-select>
           <el-link v-if="temp.pipeline.output.sender.type==='kafka'" target="_blank" type="success" href="https://kafka.apache.org/documentation/#producerconfigs">Kafka Configs Doc</el-link>
+          <el-link v-if="temp.pipeline.output.sender.type==='rabbitMQ'" target="_blank" type="success" href="https://www.rabbitmq.com/tutorials/tutorial-five-go.html">Using topic pattern of RabbitMQ</el-link>
+          <div v-if="temp.pipeline.output.sender.type==='rabbitMQ'" class="el-upload__tip">{{ $t('pipeline_table.rabbit.tips') }}</div>
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="brokers">
-          <el-input v-model="temp.pipeline.output.sender.kafka.brokers" :placeholder="$t('pipeline_table.kafka.brokers')" />
+          <el-input v-model="temp.pipeline.output.sender.kafka.brokers" type="textarea" :placeholder="$t('pipeline_table.kafka.brokers')" />
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="topic">
           <el-input v-model="temp.pipeline.output.sender.kafka.topic" />
@@ -182,10 +184,28 @@
           <el-input v-model.number="temp.pipeline.output.sender.kafka.retries" />
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'http'" label="API">
-          <el-input v-model="temp.pipeline.output.sender.http.api" />
+          <el-input v-model="temp.pipeline.output.sender.http.api" type="textarea" />
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'http'" :label="$t('pipeline_table.http.retries')">
           <el-input v-model.number="temp.pipeline.output.sender.http.retries" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rabbitMQ'" label="Exchange Url">
+          <el-input v-model="temp.pipeline.output.sender.rabbitMQ.url" type="textarea" placeholder="amqp://guest:guest@localhost:5672/" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rabbitMQ'" label="Exchange Name">
+          <el-input v-model="temp.pipeline.output.sender.rabbitMQ.exchange_name" placeholder="If it is blank, the name of pipeline is used as the exchange name" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'redis'" label="Address">
+          <el-input v-model="temp.pipeline.output.sender.redis.address" placeholder="localhost:6379" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'redis'" label="User Name">
+          <el-input v-model="temp.pipeline.output.sender.redis.username" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'redis'" label="Password">
+          <el-input v-model="temp.pipeline.output.sender.redis.password" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'redis'" label="List">
+          <el-input v-model="temp.pipeline.output.sender.redis.list" placeholder="If it is blank, the name of pipeline is used as the redis list name " />
         </el-form-item>
         <el-divider content-position="center">Filter: <el-button size="small" @click="addFilter">{{ $t('pipeline_table.filter.addFilter') }}</el-button></el-divider>
         <el-form-item
@@ -314,6 +334,16 @@ export default {
               http: {
                 api: '',
                 retries: 3
+              },
+              rabbitMQ: {
+                url: '',
+                exchange_name: ''
+              },
+              redis: {
+                address:'',
+                username:'',
+                password:'',
+                list:''
               }
             }
           },
@@ -454,6 +484,16 @@ export default {
               http: {
                 api:'',
                 retries: 3
+              },
+              rabbitMQ: {
+                url: '',
+                exchange_name: ''
+              },
+              redis: {
+                address:'',
+                username:'',
+                password:'',
+                list:''
               }
             }
           },
