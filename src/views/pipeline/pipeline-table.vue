@@ -143,12 +143,13 @@
           <el-link v-if="temp.pipeline.output.sender.type==='kafka'" target="_blank" type="success" href="https://kafka.apache.org/documentation/#producerconfigs">Kafka Configs Doc</el-link>
           <el-link v-if="temp.pipeline.output.sender.type==='rabbitMQ'" target="_blank" type="success" href="https://www.rabbitmq.com/tutorials/tutorial-five-go.html">Using topic pattern of RabbitMQ</el-link>
           <div v-if="temp.pipeline.output.sender.type==='rabbitMQ'" class="el-upload__tip">{{ $t('pipeline_table.rabbit.tips') }}</div>
+          <div v-if="temp.pipeline.output.sender.type==='redis'" class="el-upload__tip">{{ $t('pipeline_table.redis.tips') }}</div>
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="brokers">
           <el-input v-model="temp.pipeline.output.sender.kafka.brokers" type="textarea" :placeholder="$t('pipeline_table.kafka.brokers')" />
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="topic">
-          <el-input v-model="temp.pipeline.output.sender.kafka.topic" />
+          <el-input v-model="temp.pipeline.output.sender.kafka.topic" placeholder="If it is blank, the name of pipeline is used as the topic name" />
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="acks">
           <el-select v-model="temp.pipeline.output.sender.kafka.require_acks" class="filter-item" :placeholder="$t('pipeline_table.select.pleaseSelect')">

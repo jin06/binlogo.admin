@@ -344,6 +344,9 @@ export default {
     rabbit: {
       tips: 'Configure rabbitmq exchange, and binlogo will send a message to the exchange. The routing key is the database plus data table, such as database.table. Users need to create a corresponding rabbitmq queue when using it'
     },
+    redis: {
+      tips: 'Binlogo will send data to the List of Redis. The command used is RPUSH -- Insert data from the right side of the list'
+    },
     actions: 'Actions',
     status: 'Status',
     edit: 'Edit',

@@ -70,7 +70,7 @@
       </el-table-column>
       <el-table-column :label="$t('capacity.cpuCores')" width="auto">
         <template slot-scope="{row}">
-          <span>{{ row.capacity.cpu_cors }}</span>
+          <span>{{ row.capacity.cpu_cores }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('capacity.memory')" width="auto">
@@ -80,12 +80,12 @@
       </el-table-column>
       <el-table-column :label="$t('capacity.cpuUsage')" width="auto">
         <template slot-scope="{row}">
-          <el-progress :percentage="row.capacity.cpu_usage" :color="colors" />
+          <el-progress v-if="row.status.ready === true" :percentage="row.capacity.cpu_usage" :color="colors" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('capacity.memoryUsage')" width="auto">
         <template slot-scope="{row}">
-          <el-progress :percentage="row.capacity.memory_usage" :color="colors" />
+          <el-progress v-if="row.status.ready === true" :percentage="row.capacity.memory_usage" :color="colors" />
         </template>
       </el-table-column>
     </el-table>

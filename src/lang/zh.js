@@ -354,6 +354,9 @@ export default {
     rabbit: {
       tips: '配置rabbitMQ的exchange，binlogo会向该exchange发送message，routing key是数据库加数据表，形如database.table, 用户使用时需要创建相应的rabbitMQ队列'
     },
+    redis: {
+      tips: 'Binlogo会向redis的list发送数据，使用的命令是RPUSH,从list右方插入数据'
+    },
     actions: '操作',
     status: '状态',
     edit: '编辑',
