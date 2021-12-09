@@ -282,6 +282,10 @@ export default {
           {
             key: 'redis',
             value: 'Redis'
+          },
+          {
+            key: 'rocketMQ',
+            value: 'RocketMQ'
           }
         ]
       }
@@ -356,6 +360,9 @@ export default {
     },
     redis: {
       tips: 'Binlogo会向redis的list发送数据，使用的命令是RPUSH,从list右方插入数据'
+    },
+    rocket: {
+      tips: '因为一般使用RocketMQ的都是直接使用阿里云的云服务, 所以这里直接提供了阿里云的配置,参考地址'
     },
     actions: '操作',
     status: '状态',

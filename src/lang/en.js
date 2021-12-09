@@ -279,6 +279,10 @@ export default {
           {
             key: 'redis',
             value: 'Redis'
+          },
+          {
+            key: 'rocketMQ',
+            value: 'RocketMQ'
           }
         ]
       }
@@ -346,6 +350,9 @@ export default {
     },
     redis: {
       tips: 'Binlogo will send data to the List of Redis. The command used is RPUSH -- Insert data from the right side of the list'
+    },
+    rocket: {
+      tips: 'Because user generally uses Alibaba cloud services directly, rocketMQ of Alibaba cloud configurations and reference addresses are provided here'
     },
     actions: 'Actions',
     status: 'Status',

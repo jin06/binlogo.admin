@@ -142,8 +142,10 @@
           </el-select>
           <el-link v-if="temp.pipeline.output.sender.type==='kafka'" target="_blank" type="success" href="https://kafka.apache.org/documentation/#producerconfigs">Kafka Configs Doc</el-link>
           <el-link v-if="temp.pipeline.output.sender.type==='rabbitMQ'" target="_blank" type="success" href="https://www.rabbitmq.com/tutorials/tutorial-five-go.html">Using topic pattern of RabbitMQ</el-link>
+          <el-link v-if="temp.pipeline.output.sender.type==='rocketMQ'" target="_blank" type="success" href="https://help.aliyun.com/document_detail/255810.html?spm=5176.rocketmq.help.dexternal.248c7d10NtDnwh">Using pattern of RocketMQ</el-link>
           <div v-if="temp.pipeline.output.sender.type==='rabbitMQ'" class="el-upload__tip">{{ $t('pipeline_table.rabbit.tips') }}</div>
           <div v-if="temp.pipeline.output.sender.type==='redis'" class="el-upload__tip">{{ $t('pipeline_table.redis.tips') }}</div>
+          <div v-if="temp.pipeline.output.sender.type==='rocketMQ'" class="el-upload__tip">{{ $t('pipeline_table.rocket.tips') }}</div>
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'kafka'" label="brokers">
           <el-input v-model="temp.pipeline.output.sender.kafka.brokers" type="textarea" :placeholder="$t('pipeline_table.kafka.brokers')" />
@@ -207,6 +209,21 @@
         </el-form-item>
         <el-form-item v-if="temp.pipeline.output.sender.type === 'redis'" label="List">
           <el-input v-model="temp.pipeline.output.sender.redis.list" placeholder="If it is blank, the name of pipeline is used as the redis list name " />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rocketMQ'" label="Endpoint">
+          <el-input v-model="temp.pipeline.output.sender.rocketMQ.endpoint" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rocketMQ'" label="TopicName">
+          <el-input v-model="temp.pipeline.output.sender.rocketMQ.topic_name" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rocketMQ'" label="InstanceId">
+          <el-input v-model="temp.pipeline.output.sender.rocketMQ.instance_id" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rocketMQ'" label="AccessKey">
+          <el-input v-model="temp.pipeline.output.sender.rocketMQ.access_key" />
+        </el-form-item>
+        <el-form-item v-if="temp.pipeline.output.sender.type === 'rocketMQ'" label="SecretKey">
+          <el-input v-model="temp.pipeline.output.sender.rocketMQ.secret_key" />
         </el-form-item>
         <el-divider content-position="center">Filter: <el-button size="small" @click="addFilter">{{ $t('pipeline_table.filter.addFilter') }}</el-button></el-divider>
         <el-form-item
@@ -345,6 +362,13 @@ export default {
                 username:'',
                 password:'',
                 list:''
+              },
+              rocketMQ: {
+                endpoint:'',
+                topic_name: '',
+                instance_id: '',
+                access_key: '',
+                secret_key: ''
               }
             }
           },
@@ -495,6 +519,13 @@ export default {
                 username:'',
                 password:'',
                 list:''
+              },
+              rocketMQ: {
+                endpoint:'',
+                topic_name: '',
+                instance_id: '',
+                access_key: '',
+                secret_key: ''
               }
             }
           },
